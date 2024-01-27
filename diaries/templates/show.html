@@ -1,0 +1,107 @@
+{% extends "layout.html" %}
+{% block content %}
+    <header>
+        <div id="title-show">
+            <h1>{{ diary.name }} Diary</h1>
+            <div id="menu" class="pointer" title="Open menu" onclick="menu('open')">&equiv;</div>
+        </div>
+    </header>
+
+    <div class="container" style="position: relative">
+        {% if messages %}
+        {% for message in messages %}
+            <div id="message">
+                {{ message }}
+            </div>
+        {% endfor %}
+        {% endif %}
+        <div class="links-container">
+            <div>
+                <span class="btn" onclick="form_todo('show')">New Todo</span><br>
+                <div id="new-todo-form">
+                    <form method="POST" action="{% url 'create-todo' diary.id %}">
+                        {% csrf_token %}
+                        <div>
+                            <label for="title">Title</label><br>
+                            <input id="title" name="title" type="text" placeholder="Add a Title" required>
+                        </div>
+                        <br>
+                        <div>
+                            <label for="description">Description</label><br>
+                            <textarea id="description" name="description" rows="7" cols="30" placeholder="Add a Description" required></textarea>
+                        </div>
+                        <br>
+                        <div>
+                            <label for="date">Date</label><br>
+                            <input id="date" name="date" type="date" required>
+                        </div>
+                        <br>
+                        <div>
+                            <label for="important">Is important</label>
+                            <input style="width: 10px; vertical-align: middle;" id="important" name="is_important" type="checkbox">
+                        </div>
+                        <button class="btn">Save</button>
+                        <span class="pointer underline" onclick="form_todo('hide')">Close</span>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div id="book">
+            <div id="browse-sx" class="pointer">
+                <form method="GET" action="{% url 'back' diary.id %}">
+                    <button id="change-page-dx" title="back page" name="date" value="{{ data_title_sx }}" onclick="change_page()">&#171;</button>
+                </form>
+            </div>
+            <div id="browse-dx" class="pointer">
+                <form method="GET" action="{% url 'next' diary.id %}">
+                    <button id="change-page-sx" title="next page" name="date" value="{{ data_title_dx }}" onclick="change_page()">&#187;</button>
+                </form>
+            </div>
+
+            <div id="page-sx" class="pages">
+                <h3 class="page-date">{{ data_title_sx }}</h3>
+                <div class="page-todos">
+                    <ol>
+                        {% for todo in todos_sx %}
+                        <li>
+                            <div id="todo-{{ todo.id }}" class="{% if todo.done %}is_done{% endif %}">
+                                <b class="todo-title" {% if todo.is_important %} style="background-color: yellow;" {% endif %}>{{ todo.title }}</b> <br>
+                                <p class="todo-description">{{ todo.description }}</p>
+                            </div>
+                            <div id="btns-todo-{{ todo.id }}" class="links-todo">
+                                <span id="add-done-{{ todo.id }}" class="pointer underline" title="{% if not todo.done %}Done{% else %}Undo done{% endif %}" onclick="update_todo('done', '{{ todo.id }}')">
+                                    {% if not todo.done %}&#10004;{% else %}<b>&#8634;</b>{% endif %}
+                                </span>
+                                <span id="edit-todo-{{ todo.id }}" class="pointer underline" title="Edit" onclick="update_todo('text', '{{ todo.id }}')">&#9998;</span>
+                                <span class="pointer underline" title="Delete" onclick="delete_todo('{{ todo.id }}')">&#10006;</span>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ol>
+                </div>
+            </div>
+            <div id="page-dx" class="pages">
+                <h3 class="page-date">{{ data_title_dx }}</h3>
+                <div class="page-todos">
+                    <ol>
+                        {% for todo in todos_dx %}
+                        <li>
+                            <div id="todo-{{ todo.id }}" class="{% if todo.done %}is_done{% endif %}">
+                                <b class="todo-title" {% if todo.is_important %} style="background-color: yellow;" {% endif %}>{{ todo.title }}</b>
+                                <p class="todo-description">{{ todo.description }}</p>
+                            </div>
+                            <div id="btns-todo-{{ todo.id }}" class="links-todo">
+                                <span id="add-done-{{ todo.id }}" class="pointer underline" title="{% if not todo.done %}Done{% else %}Undo done{% endif %}" onclick="update_todo('done', '{{ todo.id }}')">
+                                    {% if not todo.done %}&#10004;{% else %}<b>&#8634;</b>{% endif %}
+                                </span>
+                                <span id="edit-todo-{{ todo.id }}" class="pointer underline" title="Edit" onclick="update_todo('text', '{{ todo.id }}')">&#9998;</span>
+                                <span class="pointer underline" title="Delete" onclick="delete_todo('{{ todo.id }}')">&#10006;</span>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

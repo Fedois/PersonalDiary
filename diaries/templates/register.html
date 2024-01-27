@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>loginPersonalDiary</title>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{% static 'style.css' %}">
+    </head>
+    <body>
+        <div id="login-content">
+            <div class="content-form-auth">
+                <form method="POST" action="{% url 'register' %}">
+                    {% csrf_token %}
+                    <div class="logo-auth">
+                        <img src="{% static 'logo.jpg' %}" alt="diary">
+                        <h2 class="title-logo">PersonalDiary</h2>
+                    </div>
+                    <div class="error-auth">
+                        <p>{{ message }}</p>
+                    </div>
+                    <div>
+                        <label for="uname"><b>Username</b></label> <br>
+                        <input type="text" placeholder="Enter Username" name="username" id="uname" required>
+                    </div>
+                    <br>
+                    <div>
+                        <label for="mail"><b>Email</b></label> <br>
+                        <input type="text" placeholder="Enter Email" name="email" id="mail" required>
+                    </div>
+                    <br>
+                    <div>
+                        <label for="psw"><b>Password</b></label> <br>
+                        <input type="password" placeholder="Enter Password" name="password" id="psw" required>
+                    </div>
+                    <br>
+                    <div>
+                        <label for="conf"><b>Confirm password</b></label> <br>
+                        <input type="password" placeholder="Enter Password" name="confirm" id="conf" required>
+                    </div>
+
+                    <div>
+                        <button class="btn">Register</button>
+                        <a class="link-auth" href="{% url 'login' %}">Login</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

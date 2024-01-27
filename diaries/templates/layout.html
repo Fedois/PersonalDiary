@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>PersonalDiary</title>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{% static 'style.css' %}?v=1">
+        <link rel="stylesheet" href="{% static 'responsive.css' %}?v=1">
+        <script type="text/javascript" src="{% static 'main.js' %}?v=1"></script>
+    </head>
+    <body>
+        <div id="project-content" style="display: flex;">
+            <aside>
+                <div id="close-menu" class="pointer" title="Close menu" onclick="menu('close')">X</div>
+                <header>
+                    <div id="logo-layout">
+
+                        <a href="{% url 'index' %}">
+                            <img src="{% static 'logo.jpg' %}" alt="logo">
+                            <h4 class="logo-title-small">PersonalDiary</h4>
+                        </a>
+                        
+                        <div class="links-header">
+                            <a href="{% url 'logout' %}" id="logout">Logout</a>
+                            <p id="create-diary" onclick="form_diary('show')">New Diary</p>
+                        </div>
+                    </div>
+                </header>
+                
+                <nav>
+                    <div id="new-diary-form">
+                        <form method="POST" action="{% url 'create' %}">
+                            {% csrf_token %}
+                             <input type="text" name="name" placeholder="name diary" required>
+                             <button id="sub-diary" class="pointer">&#10004;</button>
+                             <span class="pointer" onclick="form_diary('hide')">&#10060;</span>
+                         </form> 
+                    </div>
+
+                    <ul id="diaries">
+                        {% if diaries.count != 0 %}
+                            {% for diary in diaries %}
+                                <li id="{{ diary.id }}" class="diary-list" onclick="set_active('{{ diary.id }}')"><a href="{% url 'show' diary.id %}">{{ diary.name }}</a></li>
+                            {% endfor %}
+                        {% else %}
+                            <p style="text-align: center; margin-top: 10px">no diaries</p>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </aside>
+    
+            <main>
+                {% block content %}
+                {% endblock content %}
+            </main>
+        </div>
+    </body>
+</html>

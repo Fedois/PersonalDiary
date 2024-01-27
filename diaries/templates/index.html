@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block content %}
+    {% if messages %}
+    {% for message in messages %}
+        <div id="message">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% endif %}
+    <div id="container-index">
+        <div>
+            <div id="logo-index">
+                <img src="{% static 'logo.jpg' %}" alt="">
+            </div>
+            <div id="content-index">
+                <button id="new-diary-btn" class="btn">New Diary</button>
+                <div id="new-diary-index" style="text-align: center;">
+                    <h3>New Diary</h3>
+                    <form method="POST" action="{% url 'create' %}">
+                        {% csrf_token %}
+                         <input type="text" name="name" placeholder="name diary" required style="padding: 5px; width: 70%; margin: 5px 0;">
+                         <button class="pointer sub-diary" style="color: green; font-size: 1.2em;">&#10004;</button>
+                         <a href="{% url 'index' %}">&#10060;</a>
+                     </form> 
+                </div>
+                {% if user.diaries.count > 0 %}
+                    <button id="btn-open" class="btn">Open diary</button>
+                    <nav id="open-diaries">
+                        <a href="{% url 'index' %}" title="Back">&#8678;</a>
+                        <ul id="diaries">
+                        {% for diary in diaries %}
+                            <li id="{{ diary.id }}" class="diary-list-index" onclick="set_active('{{ diary.id }}')"><a href="{% url 'show' diary.id %}">{{ diary.name }}</a></li>
+                        {% endfor %}
+                        </ul>
+                    </nav>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}
