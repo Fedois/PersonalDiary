@@ -20,12 +20,11 @@ The decision to create this app with diary functionality adds a layer of complex
 
 ## Running the Application
 
-To run the TodoList application, follow these steps:
+To run this application, follow these steps:
 
 1. Clone the repository: `git clone https://github.com/me50/Fedois.git`
-2. Change branch: `git checkout web50/projects/2020/x/capstone`
-3. Apply database migrations: `python manage.py migrate`
-4. Start the development server: `python manage.py runserver`
+2. Apply database migrations: `python manage.py migrate`
+3. Start the development server: `python manage.py runserver`
 
 
 ## Additional Information
