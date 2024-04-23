@@ -116,12 +116,12 @@ def next_page(request, id):
 
     try: 
         request_date = request.GET['date'] 
-        date = datetime.strptime(request_date, "%b. %d, %Y").date()
+        date = datetime.strptime(request_date, "%B %d, %Y").date()
         day_one = date + timedelta(1)
         day_two = day_one + timedelta(1)
     except:
         request_date = request.GET['date_mobile']
-        date = datetime.strptime(request_date, "%b. %d, %Y").date()
+        date = datetime.strptime(request_date, "%B %d, %Y").date()
         day_one = date
         day_two = day_one + timedelta(1)
 
@@ -138,11 +138,11 @@ def back_page(request, id):
     diary = Diary.objects.get(pk = id)
 
     try: 
-        date = datetime.strptime(request.GET['date'], "%b. %d, %Y").date()
+        date = datetime.strptime(request.GET['date'], "%B %d, %Y").date()
         day_two = date - timedelta(1)
         day_one = day_two - timedelta(1)
     except:
-        date = datetime.strptime(request.GET['date_mobile'], "%b. %d, %Y").date()
+        date = datetime.strptime(request.GET['date_mobile'], "%B %d, %Y").date()
         day_two = date
         day_one = day_two - timedelta(1)
 
